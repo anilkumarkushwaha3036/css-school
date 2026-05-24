@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS School: Interactive Developer Laboratory & Game</title>
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Link External State Controller JS -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- CELEBRATION CANVAS -->
+    <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+
+    <div class="app-layout">
+        <!-- SIDEBAR NAVIGATION PANEL -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <!-- concentric logo square vectors -->
+                <div class="logo-box">
+                    <span class="logo-layer margin-layer"></span>
+                    <span class="logo-layer border-layer"></span>
+                    <span class="logo-layer padding-layer"></span>
+                    <span class="logo-layer content-layer"></span>
+                </div>
+                <h2>CSS <span class="accent-text">School</span></h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-item active" onclick="switchRoute('box-model')">
+                    <span class="nav-num">01</span>
+                    <div class="nav-details"><span class="nav-title">Box Model Lab</span><span class="nav-desc">Module 1: Box Boundaries</span></div>
+                </button>
+                <button class="nav-item" onclick="switchRoute('flexbox')">
+                    <span class="nav-num">02</span>
+                    <div class="nav-details"><span class="nav-title">Flexbox Arena</span><span class="nav-desc">Module 2: Flow Alignment</span></div>
+                </button>
+                <button class="nav-item" onclick="switchRoute('position')">
+                    <span class="nav-num">03</span>
+                    <div class="nav-details"><span class="nav-title">Positioning Lab</span><span class="nav-desc">Module 3: Coordinate Offsets</span></div>
+                </button>
+                <button class="nav-item" onclick="switchRoute('grid')">
+                    <span class="nav-num">04</span>
+                    <div class="nav-details"><span class="nav-title">Grid Space</span><span class="nav-desc">Module 4: 2D Grid Tracks</span></div>
+                </button>
+                <button class="nav-item" onclick="switchRoute('color')">
+                    <span class="nav-num">05</span>
+                    <div class="nav-details"><span class="nav-title">Styles & FX Lab</span><span class="nav-desc">Module 5: Color, Shadow, Radius</span></div>
+                </button>
+                <button class="nav-item" onclick="switchRoute('typography')">
+                    <span class="nav-num">06</span>
+                    <div class="nav-details"><span class="nav-title">Typography Studio</span><span class="nav-desc">Module 6: Text & Shadow</span></div>
+                </button>
+                <button class="nav-item" onclick="switchRoute('transform')">
+                    <span class="nav-num">07</span>
+                    <div class="nav-details"><span class="nav-title">Transforms & Anim</span><span class="nav-desc">Module 7: Keyframes Timeline</span></div>
+                </button>
+                
+                <div class="nav-divider"></div>
+                <button class="nav-item game-nav-btn" onclick="switchRoute('game')">
+                    <span class="nav-num game-nav-num">08</span>
+                    <div class="nav-details"><span class="nav-title">Layout Quest</span><span class="nav-desc">The practice game (20 Lvls)</span></div>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer"><p>Practice intermediate-advanced CSS from basic properties to advanced cogs.</p></div>
+        </aside>
+
+        <!-- MAIN SPA CONTENT ROUTER VIEWPORTS -->
+        <main class="main-content">
+
+            <!-- ========================================== -->
+            <!-- SECTION 1: BOX MODEL LAB -->
+            <!-- ========================================== -->
+            <div id="route-box-model" class="route-panel active">
+                <header class="panel-header">
+                    <div><span class="badge badge-emerald">Module 01</span><h1>Box Model Lab</h1></div>
+                    <p class="subtitle">Understand exactly how content, padding, border, and margin accumulate.</p>
+                </header>
+
+                <div class="panel-grid">
+                    <section class="controls-column">
+                        <div class="tab-selector">
+                            <button class="tab-btn active" onclick="switchConcept('all')">All Box Model</button>
+                            <button class="tab-btn" onclick="switchConcept('padding')">Padding (Cushion)</button>
+                            <button class="tab-btn" onclick="switchConcept('margin')">Margin (Personal Space)</button>
+                        </div>
+                        <div id="analogy-card" class="analogy-box padding-theme">
+                            <div class="analogy-header"><h3 id="analogy-title">The Box Model Concept</h3></div>
+                            <p id="analogy-text">Every HTML element is a box! Use sliders below and hover over segments to see boundaries live.</p>
+                        </div>
+                        <div class="control-groups">
+                            <div class="control-card">
+                                <label class="control-title">Select Element to Control:</label>
+                                <div class="target-toggle">
+                                    <input type="radio" id="target-outer" name="control-target" value="outer" checked onchange="updateTarget()"><label for="target-outer" class="target-label"><span class="dot green-dot"></span> .outer (Green Box)</label>
+                                    <input type="radio" id="target-inner" name="control-target" value="inner" onchange="updateTarget()"><label for="target-inner" class="target-label"><span class="dot red-dot"></span> .inner (Red Box)</label>
+                                </div>
+                            </div>
+                            <div class="control-card control-padding-group highlightable" data-highlight="padding">
+                                <div class="control-header"><span class="indicator-icon green-bg"></span><h4>Padding (Cushion Inside Box)</h4></div>
+                                <div class="slider-container">
+                                    <div class="slider-header"><span class="label">All Sides</span><span class="value" id="val-pad-all">20px</span></div>
+                                    <input type="range" id="pad-all" min="0" max="80" value="20" class="slider pad-slider" oninput="updateBoxModel('padding', 'all', this.value)">
+                                </div>
+                                <div class="checkbox-container"><input type="checkbox" id="split-padding" onchange="toggleSplit('padding')"><label for="split-padding">Unlock Individual Sides</label></div>
+                                <div id="padding-individual" class="individual-sliders hidden">
+                                    <div class="slider-grid">
+                                        <div class="slider-container">
+                                            <div class="slider-header"><span class="label">Top</span><span class="value" id="val-pad-top">20px</span></div>
+                                            <input type="range" id="pad-top" min="0" max="80" value="20" class="slider pad-slider" oninput="updateBoxModel('padding', 'top', this.value)">
+                                        </div>
+                                        <div class="slider-container">
+                                            <div class="slider-header"><span class="label">Right</span><span class="value" id="val-pad-right">20px</span></div>
+                                            <input type="range" id="pad-right" min="0" max="80" value="20" class="slider pad-slider" oninput="updateBoxModel('padding', 'right', this.value)">
+                                        </div>
+                                        <div class="slider-container">
+                                            <div class="slider-header"><span class="label">Bottom</span><span class="value" id="val-pad-bottom">20px</span></div>
+                                            <input type="range" id="pad-bottom" min="0" max="80" value="20" class="slider pad-slider" oninput="updateBoxModel('padding', 'bottom', this.value)">
+                                        </div>
+                                        <div class="slider-container">
+                                            <div class="slider-header"><span class="label">Left</span><span class="value" id="val-pad-left">20px</span></div>
+                                            <input type="range" id="pad-left" min="0" max="80" value="20" class="slider pad-slider" oninput="updateBoxModel('padding', 'left', this.value)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-card control-margin-group highlightable" data-highlight="margin">
+                                <div class="control-header"><span class="indicator-icon orange-bg"></span><h4>Margin (Personal Space Outside Box)</h4></div>
+                                <div class="slider-container">
+                                    <div class="slider-header"><span class="label">All Sides</span><span class="value" id="val-mar-all">20px</span></div>
+                                    <input type="range" id="mar-all" min="0" max="80" value="20" class="slider mar-slider" oninput="updateBoxModel('margin', 'all', this.value)">
+                                </div>
+                                <div class="checkbox-container"><input type="checkbox" id="split-margin" onchange="toggleSplit('margin')"><label for="split-margin">Unlock Individual Sides</label></div>
+                                <div id="margin-individual" class="individual-sliders hidden">
+                                    <div class="slider-grid">
+                                        <div class="slider-container">
+                                            <div class="slider-header"><span class="label">Top</span><span class="value" id="val-mar-top">20px</span></div>
+                                            <input type="range" id="mar-top" min="0" max="80" value="20" class="slider mar-slider" oninput="updateBoxModel('margin', 'top', this.value)">
+                                        </div>
+                                        <div class="slider-container">
+                                            <div class="slider-header"><span class="label">Right</span><span class="value" id="val-mar-right">20px</span></div>
+                                            <input type="range" id="mar-right" min="0" max="80" value="20" class="slider mar-slider" oninput="updateBoxModel('margin', 'right', this.value)">
+                                        </div>
+                                        <div class="slider-container">
+                                            <div class="slider-header"><span class="label">Bottom</span><span class="value" id="val-mar-bottom">20px</span></div>
+                                            <input type="range" id="mar-bottom" min="0" max="80" value="20" class="slider mar-slider" oninput="updateBoxModel('margin', 'bottom', this.value)">
+                                        </div>
+                                        <div class="slider-container">
+                                            <div class="slider-header"><span class="label">Left</span><span class="value" id="val-mar-left">20px</span></div>
+                                            <input type="range" id="mar-left" min="0" max="80" value="20" class="slider mar-slider" oninput="updateBoxModel('margin', 'left', this.value)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-card">
+                                <div class="control-header"><span class="indicator-icon blue-bg"></span><h4>Box-Sizing Mode</h4></div>
+                                <p class="box-sizing-desc">Decide if padding and borders fit inside width (border-box) or expand outer boundaries (content-box).</p>
+                                <div class="sizing-toggle">
+                                    <input type="radio" id="sizing-border" name="box-sizing" value="border-box" checked onchange="updateSizing()"><label for="sizing-border" class="sizing-label">border-box (Standard)</label>
+                                    <input type="radio" id="sizing-content" name="box-sizing" value="content-box" onchange="updateSizing()"><label for="sizing-content" class="sizing-label">content-box (Legacy)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="previews-column">
+                        <div class="card preview-card">
+                            <div class="card-header"><h3>Live Layout Preview</h3><div class="preview-helpers"><span class="helper-badge margin-badge">Margin</span><span class="helper-badge border-badge">Border</span><span class="helper-badge padding-badge">Padding</span><span class="helper-badge content-badge">Content</span></div></div>
+                            <div class="preview-area" id="preview-boundary">
+                                <div class="outer" id="outer-element"><div class="inner" id="inner-element"><span class="content-text">Content</span></div></div>
+                                <div id="guide-margin" class="guide-layer margin-guide hidden"></div>
+                                <div id="guide-padding" class="guide-layer padding-guide hidden"></div>
+                            </div>
+                        </div>
+                        <div class="card devtools-card">
+                            <div class="card-header"><h3>Real-Time Box Model Diagram</h3><span class="card-hint">Hover regions to view layout highlights</span></div>
+                            <div class="devtools-box-model">
+                                <div class="diagram-layer margin-layer" data-highlight="margin" onmouseenter="setHighlight('margin')" onmouseleave="clearHighlight()">
+                                    <span class="layer-label">margin</span>
+                                    <div class="diag-val diag-top" id="diag-mar-top">20</div><div class="diag-val diag-left" id="diag-mar-left">20</div>
+                                    <div class="diagram-layer border-layer" data-highlight="border" onmouseenter="setHighlight('border')" onmouseleave="clearHighlight()">
+                                        <span class="layer-label">border</span>
+                                        <div class="diag-val diag-top" id="diag-bor-top">2</div><div class="diag-val diag-left" id="diag-bor-left">2</div>
+                                        <div class="diagram-layer padding-layer" data-highlight="padding" onmouseenter="setHighlight('padding')" onmouseleave="clearHighlight()">
+                                            <span class="layer-label">padding</span>
+                                            <div class="diag-val diag-top" id="diag-pad-top">20</div><div class="diag-val diag-left" id="diag-pad-left">20</div>
+                                            <div class="diagram-layer content-layer" data-highlight="content" onmouseenter="setHighlight('content')" onmouseleave="clearHighlight()">
+                                                <div class="content-dims"><span id="diag-width">200</span><span class="x-sep">×</span><span id="diag-height">200</span></div>
+                                            </div>
+                                            <div class="diag-val diag-right" id="diag-pad-right">20</div><div class="diag-val diag-bottom" id="diag-pad-bottom">20</div>
+                                        </div>
+                                        <div class="diag-val diag-right" id="diag-bor-right">2</div><div class="diag-val diag-bottom" id="diag-bor-bottom">2</div>
+                                    </div>
+                                    <div class="diag-val diag-right" id="diag-mar-right">20</div><div class="diag-val diag-bottom" id="diag-mar-bottom">20</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card code-card">
+                            <div class="card-header"><h3>Live CSS Editor</h3><button class="btn-copy" onclick="copyCSSCode('css-output')">Copy CSS</button></div>
+                            <textarea class="interactive-code-editor" id="css-output" spellcheck="false" oninput="applyManualCSSEdit('css-output')"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION 2: FLEXBOX ARENA -->
+            <!-- ========================================== -->
+            <div id="route-flexbox" class="route-panel">
+                <header class="panel-header">
+                    <div><span class="badge badge-purple">Module 02</span><h1>Flexbox Arena</h1></div>
+                    <p class="subtitle">Control alignment, item wrapping, sizing ratios, and layout flow interactively.</p>
+                </header>
+
+                <div class="panel-grid">
+                    <section class="controls-column">
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon purple-bg"></span><h4>Container Flex Properties</h4></div>
+                            <div class="slider-container" style="margin-top:14px;">
+                                <span class="control-title">flex-direction</span>
+                                <div class="toggle-grid">
+                                    <button class="toggle-btn active" id="flex-dir-row" onclick="updateFlex('flexDirection', 'row')">row</button>
+                                    <button class="toggle-btn" id="flex-dir-row-reverse" onclick="updateFlex('flexDirection', 'row-reverse')">row-rev</button>
+                                    <button class="toggle-btn" id="flex-dir-column" onclick="updateFlex('flexDirection', 'column')">column</button>
+                                    <button class="toggle-btn" id="flex-dir-column-reverse" onclick="updateFlex('flexDirection', 'column-reverse')">col-rev</button>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <span class="control-title">justify-content (Main Axis)</span>
+                                <div class="toggle-grid grid-3col">
+                                    <button class="toggle-btn active" id="flex-jc-flex-start" onclick="updateFlex('justifyContent', 'flex-start')">start</button>
+                                    <button class="toggle-btn" id="flex-jc-center" onclick="updateFlex('justifyContent', 'center')">center</button>
+                                    <button class="toggle-btn" id="flex-jc-flex-end" onclick="updateFlex('justifyContent', 'flex-end')">end</button>
+                                    <button class="toggle-btn" id="flex-jc-space-between" onclick="updateFlex('justifyContent', 'space-between')">between</button>
+                                    <button class="toggle-btn" id="flex-jc-space-around" onclick="updateFlex('justifyContent', 'space-around')">around</button>
+                                    <button class="toggle-btn" id="flex-jc-space-evenly" onclick="updateFlex('justifyContent', 'space-evenly')">evenly</button>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <span class="control-title">align-items (Cross Axis)</span>
+                                <div class="toggle-grid grid-3col">
+                                    <button class="toggle-btn active" id="flex-ai-flex-start" onclick="updateFlex('alignItems', 'flex-start')">start</button>
+                                    <button class="toggle-btn" id="flex-ai-center" onclick="updateFlex('alignItems', 'center')">center</button>
+                                    <button class="toggle-btn" id="flex-ai-flex-end" onclick="updateFlex('alignItems', 'flex-end')">end</button>
+                                    <button class="toggle-btn" id="flex-ai-stretch" onclick="updateFlex('alignItems', 'stretch')">stretch</button>
+                                    <button class="toggle-btn" id="flex-ai-baseline" onclick="updateFlex('alignItems', 'baseline')">baseline</button>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <span class="control-title">flex-wrap</span>
+                                <div class="toggle-grid"><button class="toggle-btn active" id="flex-wrap-nowrap" onclick="updateFlex('flexWrap', 'nowrap')">nowrap</button><button class="toggle-btn" id="flex-wrap-wrap" onclick="updateFlex('flexWrap', 'wrap')">wrap</button></div>
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">gap (Spacing)</span><span class="value" id="val-flex-gap">10px</span></div>
+                                <input type="range" id="flex-gap" min="0" max="40" value="10" class="slider" oninput="updateFlex('gap', this.value + 'px')">
+                            </div>
+                        </div>
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon blue-bg"></span><h4>Flex Items Manager</h4></div>
+                            <div class="flex-actions"><button class="btn btn-emerald" onclick="addFlexItem()">Add Item</button><button class="btn btn-danger" onclick="removeFlexItem()">Remove Item</button></div>
+                            <div id="flex-item-panel" class="item-properties-panel" style="margin-top:16px;">
+                                <span class="control-title">Edit Selected Item Properties:</span>
+                                <div class="flex-item-grid" style="margin-top: 10px;">
+                                    <div class="slider-container">
+                                        <div class="slider-header"><span class="label">flex-grow</span><span class="value" id="val-grow">0</span></div>
+                                        <input type="range" id="item-grow" min="0" max="5" value="0" class="slider" oninput="updateActiveItemProp('flexGrow', this.value)">
+                                    </div>
+                                    <div class="slider-container">
+                                        <div class="slider-header"><span class="label">flex-shrink</span><span class="value" id="val-shrink">1</span></div>
+                                        <input type="range" id="item-shrink" min="0" max="5" value="1" class="slider" oninput="updateActiveItemProp('flexShrink', this.value)">
+                                    </div>
+                                    <div class="slider-container">
+                                        <div class="slider-header"><span class="label">align-self</span></div>
+                                        <select id="item-self" class="custom-select" onchange="updateActiveItemProp('alignSelf', this.value)"><option value="auto">auto</option><option value="flex-start">flex-start</option><option value="center">center</option><option value="flex-end">flex-end</option><option value="stretch">stretch</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="previews-column">
+                        <div class="card preview-card">
+                            <div class="card-header"><h3>Live Flex Container Preview</h3><span class="card-hint">Click elements to select individual settings</span></div>
+                            <div class="flex-preview-arena" id="flex-container">
+                                <div class="flex-item active-flex-item" id="item-1" onclick="selectFlexItem(1)"><span class="item-badge">Item 1</span><div class="item-stats">g:0 | s:1</div></div>
+                                <div class="flex-item" id="item-2" onclick="selectFlexItem(2)"><span class="item-badge">Item 2</span><div class="item-stats">g:0 | s:1</div></div>
+                                <div class="flex-item" id="item-3" onclick="selectFlexItem(3)"><span class="item-badge">Item 3</span><div class="item-stats">g:0 | s:1</div></div>
+                            </div>
+                        </div>
+                        <div class="card code-card">
+                            <div class="card-header"><h3>Live CSS Editor</h3><button class="btn-copy" onclick="copyCSSCode('flex-css-output')">Copy CSS</button></div>
+                            <textarea class="interactive-code-editor" id="flex-css-output" spellcheck="false" oninput="applyManualCSSEdit('flex-css-output')"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION 3: POSITIONING LAB -->
+            <!-- ========================================== -->
+            <div id="route-position" class="route-panel">
+                <header class="panel-header">
+                    <div><span class="badge badge-amber">Module 03</span><h1>Positioning Lab</h1></div>
+                    <p class="subtitle">Understand offsets and layouts for static, relative, absolute, fixed, and sticky positions.</p>
+                </header>
+
+                <div class="panel-grid">
+                    <section class="controls-column">
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon orange-bg"></span><h4>Element Position Property</h4></div>
+                            <div class="slider-container" style="margin-top:14px;">
+                                <span class="control-title">position mode</span>
+                                <div class="toggle-grid grid-3col">
+                                    <button class="toggle-btn active" id="pos-static" onclick="updatePosMode('static')">static</button>
+                                    <button class="toggle-btn" id="pos-relative" onclick="updatePosMode('relative')">relative</button>
+                                    <button class="toggle-btn" id="pos-absolute" onclick="updatePosMode('absolute')">absolute</button>
+                                    <button class="toggle-btn" id="pos-sticky" onclick="updatePosMode('sticky')">sticky</button>
+                                    <button class="toggle-btn" id="pos-fixed" onclick="updatePosMode('fixed')">fixed</button>
+                                </div>
+                            </div>
+                            <p class="box-sizing-desc" id="pos-desc">`static` is standard position flow. All offsets are ignored.</p>
+                        </div>
+                        <div class="control-card" id="offset-controls">
+                            <div class="control-header"><span class="indicator-icon blue-bg"></span><h4>Coordinate Offsets</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">top</span><span class="value" id="val-pos-top">auto</span></div>
+                                <input type="range" id="pos-top" min="-100" max="150" value="0" class="slider" oninput="updatePosOffset('top', this.value)" disabled>
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">left</span><span class="value" id="val-pos-left">auto</span></div>
+                                <input type="range" id="pos-left" min="-100" max="150" value="0" class="slider" oninput="updatePosOffset('left', this.value)" disabled>
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">z-index</span><span class="value" id="val-pos-z">auto</span></div>
+                                <input type="range" id="pos-z" min="-5" max="10" value="0" class="slider" oninput="updatePosOffset('zIndex', this.value)" disabled>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="previews-column">
+                        <div class="card preview-card">
+                            <div class="card-header"><h3>Document Flow Visualizer</h3><span class="card-hint">Scroll down inside card to view Sticky & Fixed!</span></div>
+                            <div class="position-scroll-arena" id="pos-scroll-arena">
+                                <div class="mock-nav">Sticky Navigation Header (`top: 0`)</div>
+                                <div class="mock-block"><p>Standard flow elements. Containing parent box below handles relative/absolute testing elements.</p></div>
+                                <div class="mock-positioned-parent" id="pos-parent">
+                                    <span class="parent-label">Containing Box Parent (.parent)</span>
+                                    <div class="mock-block" style="padding: 10px; margin: 0; min-height: 50px;">Static flow element before target.</div>
+                                    <div class="pos-target-element" id="pos-target">Active Element</div>
+                                    <div class="mock-block" style="padding: 10px; margin: 0; min-height: 50px;">Static flow element after target.</div>
+                                </div>
+                                <div class="mock-block" style="min-height: 380px; background: rgba(255,255,255,0.01)"><p>Scroll down to see fixed remain floating, and sticky lock onto layout box border frames.</p></div>
+                            </div>
+                        </div>
+                        <div class="card code-card">
+                            <div class="card-header"><h3>Live CSS Editor</h3><button class="btn-copy" onclick="copyCSSCode('pos-css-output')">Copy CSS</button></div>
+                            <textarea class="interactive-code-editor" id="pos-css-output" spellcheck="false" oninput="applyManualCSSEdit('pos-css-output')"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION 4: GRID SPACE -->
+            <!-- ========================================== -->
+            <div id="route-grid" class="route-panel">
+                <header class="panel-header">
+                    <div><span class="badge badge-cyan">Module 04</span><h1>Grid Space</h1></div>
+                    <p class="subtitle">Understand fractional units (fr), column track templates, rows, and grid lines visually.</p>
+                </header>
+
+                <div class="panel-grid">
+                    <section class="controls-column">
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon blue-bg"></span><h4>Column Track Layout</h4></div>
+                            <div class="slider-container" style="margin-top:14px;">
+                                <span class="control-title">grid-template-columns</span>
+                                <div class="toggle-grid grid-3col">
+                                    <button class="toggle-btn active" id="grid-col-1" onclick="updateGridCols('1fr 1fr 1fr')">3 Equal (1fr 1fr 1fr)</button>
+                                    <button class="toggle-btn" id="grid-col-2" onclick="updateGridCols('100px 1fr 100px')">Fixed sides (100px 1fr 100px)</button>
+                                    <button class="toggle-btn" id="grid-col-3" onclick="updateGridCols('1fr 2fr 1fr')">Wide center (1fr 2fr 1fr)</button>
+                                    <button class="toggle-btn" id="grid-col-4" onclick="updateGridCols('repeat(auto-fit, minmax(120px, 1fr))')">Responsive (auto-fit)</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon green-bg"></span><h4>Grid Tracks and Gaps</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">column-gap</span><span class="value" id="val-grid-colgap">16px</span></div>
+                                <input type="range" id="grid-colgap" min="0" max="40" value="16" class="slider" oninput="updateGridGap('columnGap', this.value + 'px')">
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">row-gap</span><span class="value" id="val-grid-rowgap">16px</span></div>
+                                <input type="range" id="grid-rowgap" min="0" max="40" value="16" class="slider" oninput="updateGridGap('rowGap', this.value + 'px')">
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="previews-column">
+                        <div class="card preview-card">
+                            <div class="card-header"><h3>Live Grid Gridlines Preview</h3><span class="card-hint">Grid track lines are highlighted in neon cyan</span></div>
+                            <div class="grid-preview-arena" id="grid-container">
+                                <div class="grid-item"><span>A</span></div><div class="grid-item"><span>B</span></div><div class="grid-item"><span>C</span></div>
+                                <div class="grid-item"><span>D</span></div><div class="grid-item"><span>E</span></div><div class="grid-item"><span>F</span></div>
+                            </div>
+                        </div>
+                        <div class="card code-card">
+                            <div class="card-header"><h3>Live CSS Editor</h3><button class="btn-copy" onclick="copyCSSCode('grid-css-output')">Copy CSS</button></div>
+                            <textarea class="interactive-code-editor" id="grid-css-output" spellcheck="false" oninput="applyManualCSSEdit('grid-css-output')"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION 5: STYLES & FX LAB (UPDATED COLORS/SHADOWS/BORDERS) -->
+            <!-- ========================================== -->
+            <div id="route-color" class="route-panel">
+                <header class="panel-header">
+                    <div><span class="badge badge-emerald">Module 05</span><h1>Styles & FX Lab</h1></div>
+                    <p class="subtitle">Master Color synthesis HSL systems, border geometries, and drop shadow depths.</p>
+                </header>
+
+                <div class="panel-grid">
+                    <section class="controls-column">
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon green-bg"></span><h4>Background Style Mode</h4></div>
+                            <div class="target-toggle" style="margin-top:10px;">
+                                <input type="radio" id="col-mode-solid" name="color-mode" value="solid" checked onchange="updateColorMode('solid')"><label for="col-mode-solid" class="target-label">Solid Color</label>
+                                <input type="radio" id="col-mode-gradient" name="color-mode" value="gradient" onchange="updateColorMode('gradient')"><label for="col-mode-gradient" class="target-label">Linear Gradient</label>
+                            </div>
+                        </div>
+
+                        <!-- SOLID COLOR SYNTHESIS PANEL -->
+                        <div class="control-card" id="col-solid-controls">
+                            <div class="control-header"><span class="indicator-icon blue-bg"></span><h4>Color Synthesizer (HSL format)</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">Hue (Color Angle)</span><span class="value" id="val-col-hue">160°</span></div>
+                                <input type="range" id="col-hue" min="0" max="360" value="160" class="slider hue-slider" oninput="updateSolidColor()">
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">Saturation (Vibrancy)</span><span class="value" id="val-col-sat">80%</span></div>
+                                <input type="range" id="col-sat" min="0" max="100" value="80" class="slider" oninput="updateSolidColor()">
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">Lightness (Brightness)</span><span class="value" id="val-col-light">50%</span></div>
+                                <input type="range" id="col-light" min="0" max="100" value="50" class="slider" oninput="updateSolidColor()">
+                            </div>
+                        </div>
+
+                        <!-- GRADIENT SYNTHESIS PANEL -->
+                        <div class="control-card hidden" id="col-gradient-controls">
+                            <div class="control-header"><span class="indicator-icon orange-bg"></span><h4>Gradient Configurator</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">Gradient Angle</span><span class="value" id="val-grad-angle">45°</span></div>
+                                <input type="range" id="grad-angle" min="0" max="360" value="45" class="slider" oninput="updateGradientColor()">
+                            </div>
+                            <div class="slider-grid" style="margin-top:10px;">
+                                <div class="slider-container">
+                                    <span class="control-title">Color Stop 1</span>
+                                    <input type="color" id="grad-c1" value="#10b981" class="color-picker" oninput="updateGradientColor()">
+                                </div>
+                                <div class="slider-container">
+                                    <span class="control-title">Color Stop 2</span>
+                                    <input type="color" id="grad-c2" value="#0ea5e9" class="color-picker" oninput="updateGradientColor()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BORDER RADIUS & WIDTH [NEW INTERMEDIATE TOPIC] -->
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon purple-bg"></span><h4>Borders & Geometries</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">border-radius</span><span class="value" id="val-fx-radius">12px</span></div>
+                                <input type="range" id="fx-radius" min="0" max="100" value="12" class="slider" oninput="applyColorStyles()">
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">border-width</span><span class="value" id="val-fx-border-w">2px</span></div>
+                                <input type="range" id="fx-border-w" min="0" max="15" value="2" class="slider" oninput="applyColorStyles()">
+                            </div>
+                        </div>
+
+                        <!-- BOX SHADOW CONTROL [NEW INTERMEDIATE TOPIC] -->
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon orange-bg"></span><h4>Box Shadows FX</h4></div>
+                            <div class="slider-grid">
+                                <div class="slider-container">
+                                    <div class="slider-header"><span class="label">offset-x</span><span class="value" id="val-sh-x">0px</span></div>
+                                    <input type="range" id="sh-x" min="-30" max="30" value="0" class="slider" oninput="applyColorStyles()">
+                                </div>
+                                <div class="slider-container">
+                                    <div class="slider-header"><span class="label">offset-y</span><span class="value" id="val-sh-y">10px</span></div>
+                                    <input type="range" id="sh-y" min="-30" max="30" value="10" class="slider" oninput="applyColorStyles()">
+                                </div>
+                                <div class="slider-container">
+                                    <div class="slider-header"><span class="label">blur-radius</span><span class="value" id="val-sh-blur">20px</span></div>
+                                    <input type="range" id="sh-blur" min="0" max="40" value="20" class="slider" oninput="applyColorStyles()">
+                                </div>
+                                <div class="slider-container">
+                                    <div class="slider-header"><span class="label">spread-radius</span><span class="value" id="val-sh-spread">0px</span></div>
+                                    <input type="range" id="sh-spread" min="-15" max="15" value="0" class="slider" oninput="applyColorStyles()">
+                                </div>
+                            </div>
+                            <div class="slider-grid" style="margin-top:10px; align-items: center;">
+                                <div class="slider-container">
+                                    <span class="control-title">Shadow Color</span>
+                                    <input type="color" id="sh-color" value="#000000" class="color-picker" oninput="applyColorStyles()">
+                                </div>
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="sh-inset" onchange="applyColorStyles()">
+                                    <label for="sh-inset">inset shadow</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon purple-bg"></span><h4>Opacity Alpha Channel</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">opacity</span><span class="value" id="val-col-op">1.0</span></div>
+                                <input type="range" id="col-op" min="0" max="100" value="100" class="slider" oninput="updateOpacity()">
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="previews-column">
+                        <div class="card preview-card">
+                            <div class="card-header"><h3>Synthesized Styles Preview</h3></div>
+                            <div class="preview-area" style="min-height:300px;">
+                                <div class="color-preview-box" id="color-preview">
+                                    <div class="color-info-overlay" id="color-info">hsl(160, 80%, 50%)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card code-card">
+                            <div class="card-header"><h3>Live CSS Editor</h3><button class="btn-copy" onclick="copyCSSCode('color-css-output')">Copy CSS</button></div>
+                            <textarea class="interactive-code-editor" id="color-css-output" spellcheck="false" oninput="applyManualCSSEdit('color-css-output')"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION 6: TYPOGRAPHY STUDIO -->
+            <!-- ========================================== -->
+            <div id="route-typography" class="route-panel">
+                <header class="panel-header">
+                    <div><span class="badge badge-purple">Module 06</span><h1>Typography Studio</h1></div>
+                    <p class="subtitle">Control typographic sizing, alignment, tracking, and drop shadow depths.</p>
+                </header>
+
+                <div class="panel-grid">
+                    <section class="controls-column">
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon purple-bg"></span><h4>Font Family & Alignment</h4></div>
+                            <div class="slider-container" style="margin-top:14px;">
+                                <span class="control-title">font-family</span>
+                                <select id="type-font" class="custom-select" onchange="updateTypography()">
+                                    <option value="'Outfit', sans-serif">Outfit (Sans-Serif)</option>
+                                    <option value="'Playfair Display', serif">Playfair Display (Elegant Serif)</option>
+                                    <option value="'Fira Code', monospace">Fira Code (Monospace)</option>
+                                </select>
+                            </div>
+                            <div class="slider-container">
+                                <span class="control-title">text-align</span>
+                                <div class="toggle-grid grid-3col">
+                                    <button class="toggle-btn active" id="align-left" onclick="updateTypeAlign('left')">left</button>
+                                    <button class="toggle-btn" id="align-center" onclick="updateTypeAlign('center')">center</button>
+                                    <button class="toggle-btn" id="align-right" onclick="updateTypeAlign('right')">right</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon green-bg"></span><h4>Size & Text Spacing</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">font-size</span><span class="value" id="val-type-size">24px</span></div>
+                                <input type="range" id="type-size" min="14" max="64" value="24" class="slider" oninput="updateTypography()">
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">letter-spacing (Tracking)</span><span class="value" id="val-type-spacing">0px</span></div>
+                                <input type="range" id="type-spacing" min="-4" max="12" value="0" class="slider" oninput="updateTypography()">
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">line-height (Leading ratio)</span><span class="value" id="val-type-height">1.4</span></div>
+                                <input type="range" id="type-height" min="10" max="25" value="14" class="slider" oninput="updateTypography()">
+                            </div>
+                        </div>
+
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon orange-bg"></span><h4>Glow Text Shadow Layers</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">Shadow Blur Radius</span><span class="value" id="val-type-blur">4px</span></div>
+                                <input type="range" id="type-blur" min="0" max="25" value="4" class="slider" oninput="updateTypography()">
+                            </div>
+                            <div class="slider-container" style="margin-top:10px;">
+                                <span class="control-title">Glow Accent Color</span>
+                                <input type="color" id="type-shadow-color" value="#a855f7" class="color-picker" oninput="updateTypography()">
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="previews-column">
+                        <div class="card preview-card">
+                            <div class="card-header"><h3>Typographic Paragraph Preview</h3></div>
+                            <div class="preview-area" style="min-height:300px; padding: 24px;">
+                                <div class="typography-preview-container">
+                                    <h2 class="type-preview-heading" id="type-preview-heading">Sleek Typography</h2>
+                                    <p class="type-preview-paragraph" id="type-preview-p">CSS typography dictates how font ratios, line heights, and shadows form readable visual experiences across screens.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card code-card">
+                            <div class="card-header"><h3>Live CSS Editor</h3><button class="btn-copy" onclick="copyCSSCode('type-css-output')">Copy CSS</button></div>
+                            <textarea class="interactive-code-editor" id="type-css-output" spellcheck="false" oninput="applyManualCSSEdit('type-css-output')"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION 7: TRANSFORMS & ANIMATION -->
+            <!-- ========================================== -->
+            <div id="route-transform" class="route-panel">
+                <header class="panel-header">
+                    <div><span class="badge badge-amber">Module 07</span><h1>Transforms & Animation</h1></div>
+                    <p class="subtitle">Master coordinate scales, 2D rotation offsets, transition curves, and keyframes timelines.</p>
+                </header>
+
+                <div class="panel-grid">
+                    <section class="controls-column">
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon orange-bg"></span><h4>2D Transform Coordinates</h4></div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">rotate (Angle)</span><span class="value" id="val-tr-rot">0°</span></div>
+                                <input type="range" id="tr-rot" min="-180" max="180" value="0" class="slider" oninput="applyTransformStyles()">
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">scale (Multiplier)</span><span class="value" id="val-tr-scale">1.0</span></div>
+                                <input type="range" id="tr-scale" min="5" max="20" value="10" class="slider" oninput="applyTransformStyles()">
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">skew-x (Slant)</span><span class="value" id="val-tr-skew">0°</span></div>
+                                <input type="range" id="tr-skew" min="-45" max="45" value="0" class="slider" oninput="applyTransformStyles()">
+                            </div>
+                        </div>
+
+                        <div class="control-card">
+                            <div class="control-header"><span class="indicator-icon blue-bg"></span><h4>Keyframes Timeline Preset</h4></div>
+                            <div class="slider-container" style="margin-top:14px;">
+                                <span class="control-title">animation style</span>
+                                <select id="anim-preset" class="custom-select" onchange="applyTransformStyles()">
+                                    <option value="spin">Spin (Rotate Loop)</option>
+                                    <option value="pulse">Pulse (Scale Loop)</option>
+                                    <option value="float">Float (Translate floating)</option>
+                                </select>
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider-header"><span class="label">animation-duration</span><span class="value" id="val-anim-dur">2.5s</span></div>
+                                <input type="range" id="anim-dur" min="5" max="50" value="25" class="slider" oninput="applyTransformStyles()">
+                            </div>
+                            <div class="slider-container" style="margin-top:16px;">
+                                <div class="timeline-control-bar">
+                                    <button class="btn btn-emerald" id="btn-anim-play" onclick="toggleTimelinePlay()">Play Timeline</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="previews-column">
+                        <div class="card preview-card">
+                            <div class="card-header"><h3>Transform Timeline Visualizer</h3></div>
+                            <div class="preview-area" style="min-height:300px;">
+                                <div class="transform-timeline-track">
+                                    <div class="anim-target-rocket" id="transform-target">✦</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card code-card">
+                            <div class="card-header"><h3>Live CSS Editor</h3><button class="btn-copy" onclick="copyCSSCode('transform-css-output')">Copy CSS</button></div>
+                            <textarea class="interactive-code-editor" id="transform-css-output" spellcheck="false" oninput="applyManualCSSEdit('transform-css-output')"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION 8: LAYOUT QUEST (THE PRACTICE GAME) -->
+            <!-- ========================================== -->
+            <div id="route-game" class="route-panel">
+                <header class="panel-header game-header">
+                    <div><span class="badge badge-game">CSS Game</span><h1>Layout Quest</h1></div>
+                    <div class="game-level-indicator"><span>Active Level:</span><div class="level-indicator-box" id="game-active-level">1 / 20</div></div>
+                </header>
+
+                <div class="panel-grid game-grid">
+                    <section class="controls-column game-terminal-card">
+                        <!-- LEVEL TABS (1-20) -->
+                        <div class="game-level-tabs flex-wrap" style="gap: 6px; justify-content: flex-start; margin-bottom: 16px;">
+                            <button class="level-tab-btn active" id="btn-lvl-1" onclick="loadGameLevel(1)">01</button><button class="level-tab-btn" id="btn-lvl-2" onclick="loadGameLevel(2)">02</button><button class="level-tab-btn" id="btn-lvl-3" onclick="loadGameLevel(3)">03</button><button class="level-tab-btn" id="btn-lvl-4" onclick="loadGameLevel(4)">04</button><button class="level-tab-btn" id="btn-lvl-5" onclick="loadGameLevel(5)">05</button>
+                            <button class="level-tab-btn" id="btn-lvl-6" onclick="loadGameLevel(6)">06</button><button class="level-tab-btn" id="btn-lvl-7" onclick="loadGameLevel(7)">07</button><button class="level-tab-btn" id="btn-lvl-8" onclick="loadGameLevel(8)">08</button><button class="level-tab-btn" id="btn-lvl-9" onclick="loadGameLevel(9)">09</button><button class="level-tab-btn" id="btn-lvl-10" onclick="loadGameLevel(10)">10</button>
+                            <button class="level-tab-btn" id="btn-lvl-11" onclick="loadGameLevel(11)">11</button><button class="level-tab-btn" id="btn-lvl-12" onclick="loadGameLevel(12)">12</button><button class="level-tab-btn" id="btn-lvl-13" onclick="loadGameLevel(13)">13</button><button class="level-tab-btn" id="btn-lvl-14" onclick="loadGameLevel(14)">14</button><button class="level-tab-btn" id="btn-lvl-15" onclick="loadGameLevel(15)">15</button>
+                            <button class="level-tab-btn" id="btn-lvl-16" onclick="loadGameLevel(16)">16</button><button class="level-tab-btn" id="btn-lvl-17" onclick="loadGameLevel(17)">17</button><button class="level-tab-btn" id="btn-lvl-18" onclick="loadGameLevel(18)">18</button><button class="level-tab-btn" id="btn-lvl-19" onclick="loadGameLevel(19)">19</button><button class="level-tab-btn" id="btn-lvl-20" onclick="loadGameLevel(20)">20</button>
+                        </div>
+
+                        <div class="card game-briefing"><h3 id="game-lvl-title">Level 1: Box Model Cushioning</h3><p id="game-lvl-instructions">Move inner active box inside target. Set padding 30px and margin 20px.</p></div>
+
+                        <!-- VIRTUAL CONSOLE EDITOR -->
+                        <div class="card editor-card">
+                            <div class="card-header"><h3 style="color:#10b981; font-family:'Fira Code', monospace; font-size:0.95rem;">✦ CSS Terminal Editor</h3><span class="card-hint">Code compiles live</span></div>
+                            <div class="terminal-editor-body">
+                                <div class="line-number-gutter"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+                                <div class="terminal-editor-lines">
+                                    <div class="editor-fixed-line" id="editor-selector-line">.arena-container {</div>
+                                    <div class="editor-input-area"><textarea id="game-editor-textarea" class="game-code-input" placeholder="Type CSS declarations here..." oninput="applyGameCSSLive()" spellcheck="false"></textarea></div>
+                                    <div class="editor-fixed-line">}</div>
+                                </div>
+                            </div>
+                            <div class="game-controls-bar"><button class="btn btn-danger" onclick="resetGameLevel()">Reset Level</button><button class="btn btn-emerald btn-game-submit" onclick="checkGameAnswer()">Check Answer</button></div>
+                        </div>
+
+                        <div id="game-alert-banner" class="game-alert hidden"><span id="game-alert-icon"></span><span id="game-alert-msg">Not quite aligned yet. Try again.</span></div>
+                    </section>
+                    
+                    <section class="previews-column">
+                        <div class="card preview-card game-preview-card">
+                            <div class="card-header"><h3>Layout Quest Arena</h3><span class="card-hint">Match your active element with the target!</span></div>
+                            <div class="game-viewport-arena" id="game-viewport">
+                                
+                                <!-- LVL 1-5 SCENES -->
+                                <div id="game-level-box-container" class="game-level-view active-view">
+                                    <div class="game-lvl1-arena-wrapper" id="game-lvl1-arena">
+                                        <div class="game-lvl1-active" id="game-lvl1-active"><div class="game-lvl1-inner" id="game-lvl1-inner-active">✦</div></div>
+                                        <div class="game-lvl1-target" id="game-lvl1-target"><div class="game-lvl1-inner-target">Target Zone</div></div>
+                                    </div>
+                                </div>
+                                <div id="game-level-flex-container" class="game-level-view">
+                                    <div class="game-flex-arena-wrapper" id="game-flex-arena">
+                                        <div class="game-flex-item-active" id="game-flex-item-1">A</div><div class="game-flex-item-active" id="game-flex-item-2">B</div><div class="game-flex-item-active" id="game-flex-item-3">C</div>
+                                    </div>
+                                    <div class="game-flex-target-overlay" id="game-flex-targets"><div class="game-flex-target-spot" id="flex-target-spot-1"></div><div class="game-flex-target-spot" id="flex-target-spot-2"></div><div class="game-flex-target-spot" id="flex-target-spot-3"></div></div>
+                                </div>
+                                <div id="game-level-position-container" class="game-level-view">
+                                    <div class="game-position-arena-wrapper" id="game-pos-arena">
+                                        <div class="game-pos-parent" id="game-pos-parent-box"><div class="game-pos-item-active" id="game-pos-active-dot">✦</div></div>
+                                        <div class="game-pos-target-spot" id="game-pos-target-dot">Target</div>
+                                    </div>
+                                </div>
+
+                                <!-- LVL 6 SCENE (Color Synthesis) -->
+                                <div id="game-level-color-container" class="game-level-view">
+                                    <div class="game-color-arena-wrapper">
+                                        <div class="game-color-active" id="game-color-active-box">Your Color</div>
+                                        <div class="game-color-target" id="game-color-target-box">Target Gradient</div>
+                                    </div>
+                                </div>
+
+                                <!-- LVL 7 SCENE (Typography Glow) -->
+                                <div id="game-level-type-container" class="game-level-view">
+                                    <div class="game-type-arena-wrapper">
+                                        <div class="game-type-active" id="game-type-active-text">CSS DEVELOPMENT</div>
+                                        <div class="game-type-target" id="game-type-target-text">CSS DEVELOPMENT</div>
+                                    </div>
+                                </div>
+
+                                <!-- LVL 8 SCENE (Transforms) -->
+                                <div id="game-level-transform-container" class="game-level-view">
+                                    <div class="game-tr-arena-wrapper">
+                                        <div class="game-tr-item-active" id="game-tr-active-cogs">✦</div>
+                                        <div class="game-tr-target-spot" id="game-tr-target-cogs">✦ Target</div>
+                                    </div>
+                                </div>
+
+                                <!-- LVL 9 SCENE (Transitions) -->
+                                <div id="game-level-transition-container" class="game-level-view">
+                                    <div class="game-trans-arena-wrapper">
+                                        <span class="hover-detector-label">HOVER PREVIEW BLOCK TO INITIATE SLIDE</span>
+                                        <div class="game-trans-item-active" id="game-trans-active-box">✦</div>
+                                        <div class="game-trans-target-spot" id="game-trans-target-box">Target</div>
+                                    </div>
+                                </div>
+
+                                <!-- LVL 10 SCENE (Responsive width container presets) -->
+                                <div id="game-level-responsive-container" class="game-level-view">
+                                    <div class="game-resp-arena-wrapper">
+                                        <div class="resp-sub-container narrow" id="game-resp-narrow-parent">
+                                            <span class="resp-label">Narrow Screen</span>
+                                            <div class="game-resp-active-card" id="resp-active-card-1">Card</div>
+                                            <div class="game-resp-target-spot" id="resp-target-spot-1">Target</div>
+                                        </div>
+                                        <div class="resp-sub-container wide" id="game-resp-wide-parent">
+                                            <span class="resp-label">Wide Screen</span>
+                                            <div class="game-resp-active-card" id="resp-active-card-2">Card</div>
+                                            <div class="game-resp-target-spot" id="resp-target-spot-2">Target</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- GAME SUCCESS POPUP -->
+                        <div id="success-modal" class="success-overlay hidden">
+                            <div class="success-card">
+                                <span class="success-trophy">✦</span>
+                                <h2>Level Complete!</h2>
+                                <p>Great coding! Your styles matched the target dimensions and features perfectly.</p>
+                                <button class="btn btn-emerald" onclick="nextGameLevel()">Advance to Next Level ▲</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+</html>
