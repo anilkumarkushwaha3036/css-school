@@ -1,4 +1,4 @@
-# ▲ CSS School: Interactive Developer Laboratory & Game
+#  CSS School: Interactive Developer Laboratory & Game
 
 Welcome to **CSS School**—a premium, state-of-the-art interactive visual sandbox and gamified training center designed to help developers master intermediate and advanced CSS layout concepts. 
 
@@ -6,7 +6,7 @@ This single-page application combines **7 visual sandbox laboratories** and a pr
 
 ---
 
-## 💎 Premium Design Systems & Aesthetics
+##  Premium Design Systems & Aesthetics
 
 * **Concentric CSS Logo**: A pure geometric CSS emblem in the header illustrating the Concentric Box Model (`margin` $\rightarrow$ `border` $\rightarrow$ `padding` $\rightarrow$ `content`) using breathing vector layers and soft glowing breath keyframe animations.
 * **Modern Developer Console**: Features CodePen-like dark console textareas with styled scrollbars, monospace syntax fonts, and active gutter glowing focus indicators.
@@ -15,7 +15,7 @@ This single-page application combines **7 visual sandbox laboratories** and a pr
 
 ---
 
-## 🗺️ The Complete 7-Module Curriculum
+##  The Complete 7-Module Curriculum
 
 ### 01 Box Model Lab
 * **Scope**: `padding`, `margin`, `border`, and `box-sizing` modes (`border-box` vs `content-box`).
@@ -43,7 +43,7 @@ This single-page application combines **7 visual sandbox laboratories** and a pr
 
 ---
 
-## 🕹️ "Layout Quest" Game (20 Levels)
+##  "Layout Quest" Game (20 Levels)
 
 A progressive CSS console puzzle editor containing **20 interactive coding challenges** structured in order of difficulty:
 
@@ -86,18 +86,3 @@ A progressive CSS console puzzle editor containing **20 interactive coding chall
 3. Select **Layout Quest** to start coding!
 
 ---
-
-## 📤 Push Updates to GitHub (Second Time)
-
-Since your project is already connected to your GitHub repository and has been pushed once, follow these three commands in your terminal to push your latest expanded version:
-
-```bash
-# 1. Stage all new classrooms, de-emojified styling, and 20-level script configurations
-git add .
-
-# 2. Commit the updates with a clean descriptive message
-git commit -m "feat: upgrade to 20-level progressive CSS School and premium styling systems"
-
-# 3. Push securely to your upstream branch (e.g. main/master)
-git push
-```
